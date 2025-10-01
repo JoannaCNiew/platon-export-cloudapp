@@ -1,18 +1,16 @@
-export interface FieldConfig {
-  name: string;
-  label: string;
-  selected: boolean;
-}
+// cloudapp/src/app/main/field-definitions.ts
+import { FieldConfig } from '../models/settings'; 
 
 export const AVAILABLE_FIELDS: FieldConfig[] = [
-  { name: 'isbn', label: 'ISBN', selected: true },
-  { name: 'title', label: 'Tytuł', selected: true },
-  { name: 'quantity', label: 'Ilość', selected: true },
-  { name: 'poNumber', label: 'Numer zamówienia', selected: false },
-  { name: 'author', label: 'Autor', selected: false },
-  { name: 'line_number', label: 'Numer linii', selected: false },
-  { name: 'owner', label: 'Właściciel', selected: false },
-  { name: 'vendor', label: 'Dostawca', selected: false },
-  { name: 'price', label: 'Cena', selected: false },
-  { name: 'fund', label: 'Fundusz', selected: false },
+  // ... Twoja lista pól ...
+  { name: 'isbn', label: 'ISBN', selected: true, customLabel: 'ISBN' },
+  { name: 'title', label: 'Tytuł', selected: true, customLabel: 'Tytuł' },
+  { name: 'quantity', label: 'Ilość', selected: true, customLabel: 'Ilość' },
+  { name: 'poNumber', label: 'Numer zamówienia', selected: false, customLabel: 'Numer zamówienia' },
+  { name: 'author', label: 'Autor', selected: false, customLabel: 'Autor' },
+  { name: 'line_number', label: 'Numer linii', selected: false, customLabel: 'Numer linii' },
+  { name: 'owner', label: 'Właściciel', selected: false, customLabel: 'Właściciel' },
+  { name: 'vendor', label: 'Dostawca', selected: false, customLabel: 'Dostawca' },
+  { name: 'price', label: 'Cena', selected: false, customLabel: 'Cena' },
+  { name: 'fund', label: 'Fundusz', selected: false, customLabel: 'Fundusz' },
 ];

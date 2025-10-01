@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'; // ReactiveFormsModule jest kluczowy dla ustawień
+import { RouterModule } from '@angular/router'; // RouterModule jest kluczowy dla routingu
 
-// Angular Material Modules
+// Angular Material Modules (zaimportowane indywidualnie dla pewności)
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
@@ -15,6 +15,9 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatListModule } from '@angular/material/list';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatCardModule } from '@angular/material/card'; 
+import { MatRadioModule } from '@angular/material/radio'; 
+import { MatSidenavModule } from '@angular/material/sidenav'; // Dodano dla pełnej kompatybilności
 
 import {
   MaterialModule,
@@ -24,30 +27,29 @@ import {
   AlertService,
   CloudAppStoreService,
   CloudAppSettingsService,
-  AlertModule
+  AlertModule // Zapewnia cloudapp-alert
 } from '@exlibris/exl-cloudapp-angular-lib';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { MainComponent } from './main/main.component';
 import { SettingsComponent } from './settings/settings.component';
-import { ColumnConfigComponent } from './components/column-config/column-config.component';
-import { PreviewComponent } from './components/preview/preview.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MainComponent,
     SettingsComponent,
-    ColumnConfigComponent,
-    PreviewComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    FormsModule,
-    ReactiveFormsModule,
-    RouterModule,
+    HttpClientModule,
+    
+    // Forms and Routing
+    FormsModule, 
+    ReactiveFormsModule, // Kluczowy dla [formGroup] w ustawieniach
+    RouterModule, 
     AppRoutingModule,
     
     // Angular Material Modules
@@ -60,9 +62,12 @@ import { PreviewComponent } from './components/preview/preview.component';
     MatListModule,
     MatProgressSpinnerModule,
     MatFormFieldModule,
+    MatCardModule,
+    MatRadioModule,
+    MatSidenavModule,
 
     // Ex Libris Library Modules
-    MaterialModule,
+    MaterialModule, 
     AlertModule
   ],
   providers: [
@@ -72,7 +77,6 @@ import { PreviewComponent } from './components/preview/preview.component';
     AlertService,
     CloudAppStoreService,
     CloudAppSettingsService,
-    provideHttpClient(withInterceptorsFromDi()),
   ],
   bootstrap: [AppComponent]
 })
