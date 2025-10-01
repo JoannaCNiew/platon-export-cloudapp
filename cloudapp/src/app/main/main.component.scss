@@ -1,0 +1,94 @@
+.entities-radio-group {
+  display: flex;
+  flex-direction: column;
+  margin: 15px 0;
+}
+
+textarea {
+  padding: 2px;
+  border-width: 1px;
+  $width: calc(100% - 6px);
+  width: $width;
+  max-width: $width;
+  height: 150px;
+  font-family: monospace;
+  display: block;
+}
+
+textarea,
+section,
+mat-card {
+  margin-bottom: 20px;
+}
+
+pre {
+  overflow: auto;
+  max-height: 200px;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+pre,
+textarea {
+  font-size: 0.9em;
+}
+
+li a {
+  cursor: pointer;
+}
+
+.eca-actions {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 1.5rem;
+  margin-top: 1.5rem; // <-- DODAJ TĘ LINIĘ
+}
+
+.settings-container {
+  margin-top: 20px;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.columns-config, .columns-order-config {
+  margin-top: 15px;
+}
+
+.field-checkbox {
+  margin-right: 15px;
+}
+
+.column-input {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.column-input mat-icon {
+  margin-right: 10px;
+  cursor: grab;
+}
+
+.column-input mat-form-field {
+  width: 100%;
+}
+
+.page-title {
+  font-size: 1.25rem; // Taki sam rozmiar jak "Ustawienia eksportu"
+  font-weight: 500;
+  margin-bottom: 1rem; // Dodajemy trochę odstępu pod tytułem
+}
+
+.instruction-text {
+  font-size: 1.25rem; // The same size as your .page-title class
+  font-weight: 500;
+  text-align: center; // Center the text for a cleaner look
+  margin-top: 2rem;   // Add some space from the top
+}
+
+.entities-list .mat-list-option .mat-list-item-content {
+  font-size: 14px; // Możesz eksperymentować z tą wartością, np. 13px lub 0.9rem
+}

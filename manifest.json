@@ -1,0 +1,18 @@
+{
+   "id": "platon",
+   "title": "PO Line Export",
+   "subtitle": "Aplikacja chmurowa do pobierania listy zamówień",
+   "author": "jcn",
+   "description": "Aplikacja pozwala na pobranie listy zamówień w formacie txt zgodnie z wartościami wskazanymi przez użytkownika",
+   "icon": {
+      "type": "font",
+      "value": "fa fa-cart-arrow-down",
+      "background": "#3F51B5"
+   },
+   "pages": {
+      "settings": "/#/settings"
+   },
+   "contentSecurity": {
+      "downloads": true
+   }
+}

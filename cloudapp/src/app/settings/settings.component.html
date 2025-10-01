@@ -1,0 +1,24 @@
+<div class="page-header">
+  
+  <div class="page-actions">
+    <button mat-stroked-button (click)="router.navigate(['/'])">
+      <mat-icon>arrow_back</mat-icon>
+      Wróć
+    </button>
+    <button mat-flat-button color="primary" (click)="saveSettings()">
+      Zapisz
+    </button>
+  </div>
+
+  <h2 class="page-title">Ustawienia eksportu</h2>
+  
+</div>
+
+<mat-dialog-content>
+  <div class="columns-config">
+    <h3>Wybierz pola do eksportu</h3>
+    
+    <app-column-config [fields]="availableFields"></app-column-config>
+    
+  </div>
+</mat-dialog-content>

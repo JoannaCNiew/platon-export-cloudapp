@@ -1,0 +1,57 @@
+// Kontener na całą listę
+:host {
+  display: block;
+  padding: 8px;
+}
+
+// Style dla pojedynczego wiersza na liście
+.field-item {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 4px 0; // Dodajemy trochę pionowego odstępu
+  margin-bottom: 8px;
+  box-sizing: border-box;
+}
+
+// Uchwyt do przeciągania po lewej stronie
+.drag-handle {
+  cursor: grab;
+  color: #5d5252; // Łagodniejszy odcień szarości
+  margin-right: 16px;
+}
+
+// Checkbox i jego etykieta
+.field-checkbox {
+  // Ten element ma się rozciągnąć, aby zająć całą dostępną przestrzeń,
+  // co "wypchnie" pole do wpisywania na prawo.
+  flex: 1;
+}
+
+// Pole tekstowe na własną nazwę
+.field-input {
+  // To pole nie powinno się kurczyć, gdyby brakowało miejsca
+  flex-shrink: 0;
+  width: 220px;
+  margin-left: 16px;
+}
+
+// Specyficzne poprawki dla komponentów Angular Material, aby wyglądały lepiej.
+// Redukuje to dodatkową przestrzeń wokół pola, czyniąc je bardziej kompaktowym.
+::ng-deep .field-input .mdc-notched-outline__trailing {
+    border-radius: 0 4px 4px 0 !important;
+}
+
+// Style dla elementu podczas przeciągania
+.cdk-drag-preview {
+  box-sizing: border-box;
+  border-radius: 4px;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+              0 8px 10px 1px rgba(0, 0, 0, 0.14),
+              0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+// Symbol zastępczy, który pojawia się w miejscu, gdzie element zostanie upuszczony
+.cdk-drag-placeholder {
+  opacity: 0;
+}

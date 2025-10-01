@@ -1,0 +1,56 @@
+// Style dla nowego nagłówka
+.page-header {
+  padding: 1rem 1.5rem; // Dodajemy wewnętrzne marginesy
+  border-bottom: 1px solid #e0e0e0; // Delikatna linia oddzielająca
+}
+
+// Kontener na przyciski
+.page-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-bottom: 1rem;
+
+  // Ta reguła zapewni, że przyciski nie będą miały dodatkowych, niechcianych marginesów
+  button {
+    margin: 0;
+  }
+}
+
+// Tytuł główny ("Ustawienia eksportu")
+.page-title {
+  font-size: 1.25rem; // Mniejsza czcionka (domyślnie h2 jest większe)
+  font-weight: 500;   // Trochę cieńsza czcionka
+  margin: 0;
+}
+
+// Kontener z listą pól
+.columns-config {
+  // Podtytuł ("Wybierz pola do eksportu")
+  h3 {
+    font-size: 1rem; // Jeszcze mniejsza czcionka
+    font-weight: 400; // Standardowa grubość
+    color: #616161; // Ciemnoszary kolor
+  }
+}
+
+// Upewniamy się, że treść dialogu nie ma własnych marginesów
+:host mat-dialog-content {
+  padding: 1.5rem;
+}
+
+// Ta reguła odnosi się do komponentu-dziecka app-column-config
+// i stylizuje etykiety wewnątrz niego
+::ng-deep app-column-config .field-label {
+  font-size: 14px !important; // Ustawiamy rozmiar czcionki etykiety
+}
+
+// Kontener z listą pól
+.columns-config {
+  // Podtytuł ("Wybierz pola do eksportu")
+  h3 {
+    font-size: 14px; // Ustawiamy DOKŁADNIE TEN SAM rozmiar czcionki
+    font-weight: 400;
+    color: #616161;
+  }
+}

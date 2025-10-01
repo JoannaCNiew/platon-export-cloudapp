@@ -1,0 +1,10 @@
+<div cdkDropList (cdkDropListDropped)="drop($event)">
+  <div *ngFor="let field of fields" cdkDrag class="field-item">
+    <div class="drag-handle">
+      <mat-icon cdkDragHandle>drag_indicator</mat-icon>
+    </div>
+    <mat-checkbox [(ngModel)]="field.selected" class="field-checkbox">
+      <span class="field-label">{{ field.label }}</span>
+    </mat-checkbox>
+  </div>
+</div>

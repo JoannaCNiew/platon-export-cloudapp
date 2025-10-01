@@ -1,0 +1,38 @@
+<div *ngIf="entities$ | async as entities">
+  <ng-container *ngIf="entities.length > 0; then entitylist; else noentities"></ng-container>
+  <ng-template #noentities>
+    <div class="highlight instruction-text">Przejdź do strony z listą linii zamówień, aby wczytać tytuły.</div>
+  </ng-template>
+
+  <ng-template #entitylist>
+    <div class="eca-actions">
+  <button mat-stroked-button (click)="toggleAll(entities)" [disabled]="loading">
+    Zaznacz/Odznacz wszystko
+  </button>
+  
+  <button mat-raised-button color="primary" (click)="generatePreview()" [disabled]="loading || selectedEntities.length === 0">
+    Generuj podgląd
+  </button>
+  
+  <button mat-raised-button color="accent" (click)="downloadFile()" [disabled]="loading || !previewContent">
+    Pobierz plik TXT
+  </button>
+  <button mat-raised-button color="accent" (click)="copyToClipboard()" [disabled]="!previewContent">
+    Kopiuj do schowka
+  </button>
+</div>
+
+    <h1 class="page-title">Lista tytułów</h1>
+    <mat-selection-list class="entities-list" [(ngModel)]="selectedEntities">
+      <mat-list-option *ngFor="let entity of entities" [value]="entity">
+        {{entity.description}}
+      </mat-list-option>
+    </mat-selection-list>
+    
+    <app-preview [content]="previewContent"></app-preview>
+    
+  </ng-template>
+</div>
+<div class="loading-shade" *ngIf="loading">
+  <mat-spinner diameter="50"></mat-spinner>
+</div>
