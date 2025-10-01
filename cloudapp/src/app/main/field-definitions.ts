@@ -1,8 +1,5 @@
-// Uwaga: Usuń import FieldConfig, ponieważ ten plik ma tylko eksportować listę stałych,
-// a FieldConfig jest definiowany w models/settings.ts
-
-// Wklej poniższy kod do pliku field-definitions.ts
-import { FieldConfig } from '../models/settings'; // <-- Użyjemy tej wersji, zakładając, że model istnieje
+// cloudapp/src/app/main/field-definitions.ts
+import { FieldConfig } from '../models/settings'; 
 
 export const AVAILABLE_FIELDS: FieldConfig[] = [
   // ... Twoja lista pól ...

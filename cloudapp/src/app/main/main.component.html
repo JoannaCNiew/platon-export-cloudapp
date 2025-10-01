@@ -1,36 +1,37 @@
 <div *ngIf="entities$ | async as entities">
   <ng-container *ngIf="entities.length > 0; then entitylist; else noentities"></ng-container>
   <ng-template #noentities>
-    <div class="highlight instruction-text">Przejdź do strony z listą linii zamówień, aby wczytać tytuły.</div>
+    <h1>Welcome!</h1>
+    <div class="highlight">Przejdź do strony z listą linii zamówień, aby wczytać encje.</div>
   </ng-template>
 
   <ng-template #entitylist>
     <div class="eca-actions">
-  <button mat-stroked-button (click)="toggleAll(entities)" [disabled]="loading">
-    Zaznacz/Odznacz wszystko
-  </button>
-  
-  <button mat-raised-button color="primary" (click)="generatePreview()" [disabled]="loading || selectedEntities.length === 0">
-    Generuj podgląd
-  </button>
-  
-  <button mat-raised-button color="accent" (click)="downloadFile()" [disabled]="loading || !previewContent">
-    Pobierz plik TXT
-  </button>
-  <button mat-raised-button color="accent" (click)="copyToClipboard()" [disabled]="!previewContent">
-    Kopiuj do schowka
-  </button>
-</div>
+      <button mat-flat-button color="secondary" (click)="toggleAll()" [disabled]="loading">
+        Zaznacz/Odznacz wszystko
+      </button>
+      <button mat-flat-button color="primary" (click)="generatePreview()" [disabled]="loading || selectedEntities.length === 0">
+        Generuj podgląd
+      </button>
+      <button mat-flat-button color="accent" (click)="downloadFile()" [disabled]="loading || !previewContent">
+        Pobierz plik TXT
+      </button>
+      <button mat-flat-button color="accent" (click)="copyToClipboard()" [disabled]="!previewContent">
+        Kopiuj do schowka
+      </button>
+    </div>
 
-    <h1 class="page-title">Lista tytułów</h1>
+    <h1>Lista encji</h1>
     <mat-selection-list class="entities-list" [(ngModel)]="selectedEntities">
       <mat-list-option *ngFor="let entity of entities" [value]="entity">
         {{entity.description}}
       </mat-list-option>
     </mat-selection-list>
     
-    <app-preview [content]="previewContent"></app-preview>
-    
+    <div *ngIf="previewContent" class="preview-container">
+      <h2>Podgląd pliku</h2>
+      <pre>{{previewContent}}</pre>
+    </div>
   </ng-template>
 </div>
 <div class="loading-shade" *ngIf="loading">
