@@ -21,9 +21,8 @@ import { AppSettings, FieldConfig } from '../models/settings';
 export class MainComponent implements OnInit, OnDestroy {
 
   loading = false;
-  // Używamy entities$ jako właściwości (zgodnie z kompatybilną wersją biblioteki)
   entities$: Observable<Entity[]>;
-  selectedEntities: Entity[] = [];
+  selectedEntities: Entity[] = []; // Kluczowa lista wybranych encji
   previewContent: string | null = null;
 
   availableFields: FieldConfig[] = [...AVAILABLE_FIELDS];
@@ -33,12 +32,10 @@ export class MainComponent implements OnInit, OnDestroy {
     private eventsService: CloudAppEventsService,
     private alert: AlertService,
     private configService: CloudAppConfigService,
-    private storeService: CloudAppStoreService // Zostawiamy StoreService, aby zachować zgodność z poprzednim kodem
+    private storeService: CloudAppStoreService
   ) {
-    // 1. Użycie entities$ jako właściwości
     this.entities$ = this.eventsService.entities$.pipe(
       tap(() => {
-        // Zresetowanie stanu przy zmianie kontekstu
         this.loading = false;
         this.selectedEntities = [];
         this.previewContent = null;
@@ -56,7 +53,22 @@ export class MainComponent implements OnInit, OnDestroy {
     return this.availableFields.filter(field => field.selected);
   }
 
-  // Metoda do dodawania/usuwania encji z listy wybranych (Zgodne z logiką select-entities)
+  // NOWA METODA: Sprawdza, czy wszystkie widoczne encje są wybrane
+  isAllSelected(entities: Entity[]): boolean {
+    return entities.every(entity => this.selectedEntities.some(e => e.link === entity.link));
+  }
+
+  // NOWA METODA: Zmienia stan 'Zaznacz/Odznacz wszystko'
+  masterToggle(entities: Entity[]) {
+    const isAll = this.isAllSelected(entities);
+    if (isAll) {
+      this.selectedEntities = [];
+    } else {
+      this.selectedEntities = [...entities];
+    }
+  }
+
+  // Metoda do dodawania/usuwania encji z listy wybranych
   toggleEntity(entity: Entity) {
     const index = this.selectedEntities.findIndex(e => e.link === entity.link);
     if (index === -1) {
@@ -66,22 +78,10 @@ export class MainComponent implements OnInit, OnDestroy {
     }
   }
 
-  // Zmiana logiki toggleAll, aby operowała na wszystkich widocznych encjach
-  toggleAll(entities: Entity[]) {
-    const allSelected = this.selectedEntities.length === entities.length;
-    if (allSelected) {
-      this.selectedEntities = [];
-    } else {
-      // Ustaw nową listę na wszystkie widoczne encje
-      this.selectedEntities = [...entities];
-    }
-  }
-
-  // Sprawdza, czy encja jest wybrana, dla checkboxa w HTML
+  // Sprawdza, czy encja jest wybrana
   isSelected(entity: Entity): boolean {
     return this.selectedEntities.some(e => e.link === entity.link);
   }
-
 
   // --- Logika generowania i pobierania plików ---
 
@@ -100,11 +100,9 @@ export class MainComponent implements OnInit, OnDestroy {
       .pipe(
         finalize(() => this.loading = false),
         map(responses => {
-          // GENEROWANIE NAGŁÓWKA
           const headers = this.selectedFields.map(field => field.customLabel).join('\t');
           let fileContent = `# Koszyk TXT Magazyn Wirtualny OSDW Azymut #\n${headers}\n`;
           
-          // GENEROWANIE DANYCH
           responses.forEach((response: any) => { 
             const row = this.selectedFields.map(field => {
               switch (field.name) {

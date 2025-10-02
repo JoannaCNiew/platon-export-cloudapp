@@ -8,9 +8,6 @@
 
   <ng-template #entitylist>
     <div class="eca-actions">
-      <button mat-flat-button color="secondary" (click)="toggleAll(entities)" [disabled]="loading">
-        Zaznacz/Odznacz wszystko ({{selectedEntities.length}}/{{entities.length}})
-      </button>
       <button mat-flat-button color="primary" (click)="generatePreview()" [disabled]="loading || selectedEntities.length === 0">
         Generuj podgląd
       </button>
@@ -25,14 +22,29 @@
     <h1>Lista encji</h1>
     
     <mat-list>
-      <mat-list-item *ngFor="let entity of entities">
-        <mat-checkbox 
-          [checked]="isSelected(entity)" 
-          (change)="toggleEntity(entity)"
-          [disabled]="loading"
-          class="entity-checkbox">
-        </mat-checkbox>
-        <div class="entity-description">{{ entity.description }}</div>
+      <mat-list-item class="entity-item"> 
+        <div class="list-line-content">
+            <mat-checkbox
+              [checked]="isAllSelected(entities)"
+              (change)="masterToggle(entities)" 
+              [disabled]="loading"
+              class="master-checkbox">
+            </mat-checkbox>
+            <div class="select-all-label" (click)="masterToggle(entities)">
+                Zaznacz/Odznacz wszystko ({{selectedEntities.length}}/{{entities.length}})
+            </div>
+        </div>
+      </mat-list-item>
+
+      <mat-list-item *ngFor="let entity of entities" class="entity-item" (click)="toggleEntity(entity)">
+        <div class="list-line-content">
+            <mat-checkbox 
+              [checked]="isSelected(entity)" 
+              [disabled]="loading"
+              class="entity-checkbox">
+            </mat-checkbox>
+            <div class="entity-description">{{ entity.description }}</div>
+        </div>
       </mat-list-item>
     </mat-list>
     
@@ -46,9 +58,3 @@
 <div class="loading-shade" *ngIf="loading">
   <mat-spinner diameter="50"></mat-spinner>
 </div>
-
-<style>
-.entity-description {
-  margin-left: 10px;
-}
-</style>

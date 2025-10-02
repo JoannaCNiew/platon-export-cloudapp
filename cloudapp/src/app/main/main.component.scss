@@ -1,8 +1,4 @@
-.entities-radio-group {
-  display: flex;
-  flex-direction: column;
-  margin: 15px 0;
-}
+/* --- STYLI OGÓLNE --- */
 
 textarea {
   padding: 2px;
@@ -33,9 +29,7 @@ textarea {
   font-size: 0.9em;
 }
 
-li a {
-  cursor: pointer;
-}
+/* --- AKCJE I USTAWIANIA --- */
 
 .eca-actions {
   display: flex;
@@ -43,22 +37,7 @@ li a {
   flex-wrap: wrap;
   gap: 8px;
   margin-bottom: 1.5rem;
-  margin-top: 1.5rem; // <-- DODAJ TĘ LINIĘ
-}
-
-.settings-container {
-  margin-top: 20px;
-  padding: 15px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-}
-
-.columns-config, .columns-order-config {
-  margin-top: 15px;
-}
-
-.field-checkbox {
-  margin-right: 15px;
+  margin-top: 1.5rem;
 }
 
 .column-input {
@@ -76,19 +55,38 @@ li a {
   width: 100%;
 }
 
-.page-title {
-  font-size: 1.25rem; // Taki sam rozmiar jak "Ustawienia eksportu"
-  font-weight: 500;
-  margin-bottom: 1rem; // Dodajemy trochę odstępu pod tytułem
+/* --- LISTA ENCJI I WYRÓWNANIE --- */
+
+mat-list {
+  padding-top: 0 !important;
 }
 
-.instruction-text {
-  font-size: 1.25rem; // The same size as your .page-title class
-  font-weight: 500;
-  text-align: center; // Center the text for a cleaner look
-  margin-top: 2rem;   // Add some space from the top
+/* 1. Naprawa mat-list-item-content (usuwa domyślne błędy wyrównania w nowym Angular Material) */
+:host ::ng-deep .mat-list-item-content { 
+    display: block; 
+    padding: 0 !important; 
+    height: auto !important;
 }
 
-.entities-list .mat-list-option .mat-list-item-content {
-  font-size: 14px; // Możesz eksperymentować z tą wartością, np. 13px lub 0.9rem
+/* 2. Styl dla nowo dodanego wewnętrznego kontenera, który naprawia układ */
+.list-line-content {
+    display: flex;
+    /* KLUCZOWA ZMIANA: Wyśrodkowanie w pionie */
+    align-items: center; 
+    padding: 8px 0; 
+    font-size: 0.9em;
+}
+
+/* 3. Etykiety i zawijanie tekstu */
+.entity-description, .select-all-label {
+    flex-grow: 1; 
+    word-wrap: break-word; 
+    white-space: normal; 
+    margin-left: 10px;
+    line-height: 1.2; 
+}
+
+/* 4. Styl dla etykiety "Zaznacz/Odznacz wszystko" */
+.select-all-label {
+    font-weight: bold;
 }

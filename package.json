@@ -24,6 +24,7 @@
     "@exlibris/exl-cloudapp-angular-lib": "^2.0.2",
     "@exlibris/exl-cloudapp-base": "^2.0.2",
     "@ngx-translate/core": "16.0.4",
+    "eca-components": "^1.4.4",
     "lodash": "4.17.21",
     "loglevel": "1.9.2",
     "rxjs": "7.8.2",
