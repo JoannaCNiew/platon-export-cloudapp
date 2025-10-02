@@ -1,56 +1,113 @@
-// Style dla nowego nagłówka
-.page-header {
-  padding: 1rem 1.5rem; // Dodajemy wewnętrzne marginesy
-  border-bottom: 1px solid #e0e0e0; // Delikatna linia oddzielająca
+/* Układ siatki dla listy pól */
+.table-header, .field-item {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    padding: 8px 0;
+    /* Domyślny rozmiar czcionki dla nazw pól (np. "ISBN") */
+    font-size: 0.9em; /* ~14.4px, baza dla listy */
 }
 
-// Kontener na przyciski
-.page-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 8px;
-  margin-bottom: 1rem;
+/* --- HIERARCHIA NAGŁÓWKÓW (KLUCZOWA ZMIANA) --- */
 
-  // Ta reguła zapewni, że przyciski nie będą miały dodatkowych, niechcianych marginesów
-  button {
-    margin: 0;
-  }
+/* 1. Nagłówek okna dialogowego ("Ustawienia eksportu") - ZMNIEJSZONY */
+h2.mat-dialog-title {
+    /* Ustawienie rozmiaru zbliżonego do nagłówków kolumn (np. 15px) */
+    font-size: 15px; 
+    font-weight: 500;
 }
 
-// Tytuł główny ("Ustawienia eksportu")
-.page-title {
-  font-size: 1.25rem; // Mniejsza czcionka (domyślnie h2 jest większe)
-  font-weight: 500;   // Trochę cieńsza czcionka
-  margin: 0;
+/* 2. Nagłówki sekcji ("Kolejność, wybór i nazwy kolumn") */
+h3, h4 {
+    /* Ustawienie rozmiaru równego nagłówkom kolumn ("Nazwa pola", "Eksport") */
+    font-size: 0.9em; /* ~14.4px - Ujednolicamy rozmiar z nagłówkami kolumn */
+    font-weight: 600;
+    margin-top: 10px;
+    margin-bottom: 5px;
 }
 
-// Kontener z listą pól
-.columns-config {
-  // Podtytuł ("Wybierz pola do eksportu")
-  h3 {
-    font-size: 1rem; // Jeszcze mniejsza czcionka
-    font-weight: 400; // Standardowa grubość
-    color: #616161; // Ciemnoszary kolor
-  }
+/* 3. Nagłówki Kolumn ("Nazwa pola", "Eksport") */
+.table-header {
+    font-size: 0.9em; /* Ujednolicamy rozmiar */
+    font-weight: 700;
+    background-color: #f7f7f7;
+    border-top: 1px solid #eee;
 }
 
-// Upewniamy się, że treść dialogu nie ma własnych marginesów
-:host mat-dialog-content {
-  padding: 1.5rem;
+
+/* --- SEKCJA ROZWIJANA (Własna nazwa) --- */
+
+.expanded-section {
+    padding: 10px 15px 5px 45px; 
+    background-color: #fafafa;
+    border-bottom: 1px solid #eee;
+    margin-top: -1px;
 }
 
-// Ta reguła odnosi się do komponentu-dziecka app-column-config
-// i stylizuje etykiety wewnątrz niego
-::ng-deep app-column-config .field-label {
-  font-size: 14px !important; // Ustawiamy rozmiar czcionki etykiety
+.custom-label-input {
+    width: 100%;
 }
 
-// Kontener z listą pól
-.columns-config {
-  // Podtytuł ("Wybierz pola do eksportu")
-  h3 {
-    font-size: 14px; // Ustawiamy DOKŁADNIE TEN SAM rozmiar czcionki
-    font-weight: 400;
-    color: #616161;
-  }
+/* Nadpisanie czcionki w polu input */
+.custom-label-input .mat-form-field-wrapper input.mat-input-element {
+    font-size: 0.9em !important; 
+}
+
+
+/* --- POZOSTAŁE STYLE (Dla kompletności) --- */
+
+.field-row-container {
+    cursor: default;
+}
+
+.col-drag, .drag-handle-icon {
+    width: 30px;
+    text-align: center;
+}
+
+.col-checkbox, .field-checkbox-cell {
+    width: 80px;
+    text-align: right;
+    padding-right: 15px;
+}
+
+.col-label, .field-label-cell {
+    flex-grow: 1; 
+    display: flex; 
+    align-items: center; 
+    justify-content: space-between; 
+}
+
+.drag-handle-icon {
+    cursor: grab;
+    color: #999;
+}
+
+.field-label-cell {
+    cursor: pointer;
+    padding-left: 5px;
+}
+
+.field-checkbox-cell {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+/* NOWE STYLE DLA STRZAŁKI ROZWIJANIA */
+.expand-arrow {
+    transition: transform 0.2s ease-in-out;
+    margin-left: 8px; 
+}
+
+.expand-arrow.expanded {
+    transform: rotate(180deg);
+}
+
+pre {
+  overflow: auto;
+  max-height: 200px;
+  white-space: pre-wrap;
+  word-break: break-all;
+  font-size: 0.9em;
 }
