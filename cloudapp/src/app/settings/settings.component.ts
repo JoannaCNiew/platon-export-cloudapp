@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormArray, FormControl } from '@angular/forms'; 
+import { FormGroup, FormArray, FormControl } from '@angular/forms';
 import { CloudAppConfigService, AlertService } from '@exlibris/exl-cloudapp-angular-lib';
-import { AVAILABLE_FIELDS } from '../main/field-definitions'; // Importujemy tylko listę!
+import { AVAILABLE_FIELDS } from '../main/field-definitions';
 import { Router } from '@angular/router';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { AppSettings, FieldConfig } from '../models/settings'; // Importujemy modele z models/settings
+import { AppSettings, FieldConfig } from '../models/settings';
 
 @Component({
   selector: 'app-settings',
@@ -14,7 +14,11 @@ import { AppSettings, FieldConfig } from '../models/settings'; // Importujemy mo
 export class SettingsComponent implements OnInit {
 
   settings: AppSettings = { availableFields: [] };
-  form: FormGroup; 
+  form: FormGroup;
+  
+  // POPRAWKA: Dodano brakujące właściwości do obsługi interfejsu
+  hoverIndex: number | null = null; 
+  expandedIndex: number | null = null;
   
   get fieldsFormArray(): FormArray {
     return this.form.get('availableFields') as FormArray;
@@ -32,7 +36,7 @@ export class SettingsComponent implements OnInit {
 
   ngOnInit() {
     this.configService.get().subscribe({
-      next: (settings: any) => { // Zmieniono typ na 'any' by uniknąć problemów z inicjalizacją
+      next: (settings: any) => {
         this.settings = settings && settings.availableFields ? settings : { availableFields: [...AVAILABLE_FIELDS] };
         this.initForm();
       },
@@ -57,7 +61,7 @@ export class SettingsComponent implements OnInit {
     this.configService.set({ availableFields: fieldsToSave } as AppSettings).subscribe({
       next: () => {
         this.alert.success('Ustawienia zostały zapisane!');
-        this.router.navigate(['/']); 
+        this.router.navigate(['/']);
       },
       error: (err: any) => this.alert.error('Nie udało się zapisać ustawień: ' + err.message)
     });
@@ -65,5 +69,14 @@ export class SettingsComponent implements OnInit {
 
   drop(event: CdkDragDrop<string[]>) {
     moveItemInArray(this.fieldsFormArray.controls, event.previousIndex, event.currentIndex);
+  }
+  
+  // POPRAWKA: Dodano brakującą metodę do obsługi rozwijania/zwijania sekcji
+  toggleExpand(index: number): void {
+    if (this.expandedIndex === index) {
+      this.expandedIndex = null;
+    } else {
+      this.expandedIndex = index;
+    }
   }
 }

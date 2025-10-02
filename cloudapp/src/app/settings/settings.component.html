@@ -4,23 +4,44 @@
 
   <mat-dialog-content>
     <div class="columns-config">
-      <h3>Wybierz pola do eksportu</h3>
+      <h4>Kolejność, wybór i nazwy kolumn</h4> 
+      
+      <div class="table-header">
+        <div class="col-drag"></div>
+        <div class="col-label">Nazwa pola</div>
+        <div class="col-checkbox">Eksport</div>
+      </div>
       
       <div formArrayName="availableFields" cdkDropList (cdkDropListDropped)="drop($event)">
         
-        <div *ngFor="let fieldControl of fieldsFormArray.controls; let i = index" [formGroupName]="i" cdkDrag>
+        <div *ngFor="let fieldControl of fieldsFormArray.controls; let i = index" [formGroupName]="i" cdkDrag
+             class="field-row-container"
+             (mouseenter)="hoverIndex = i" 
+             (mouseleave)="hoverIndex = null">
+          
           <div class="field-item">
-            <mat-icon cdkDragHandle>drag_indicator</mat-icon>
             
-            <mat-checkbox formControlName="selected" class="field-checkbox">
-              {{ fieldControl.value.label }} 
-            </mat-checkbox>
+            <mat-icon cdkDragHandle 
+                      [style.visibility]="hoverIndex === i ? 'visible' : 'hidden'" 
+                      class="drag-handle-icon">drag_indicator</mat-icon>
             
-            <mat-form-field class="field-input">
-              <mat-label>Własna nazwa ({{ fieldControl.value.label }})</mat-label>
-              <input matInput formControlName="customLabel">
+            <div class="field-label-cell" (click)="toggleExpand(i)">
+              {{ fieldControl.value.label }}
+              <mat-icon class="expand-arrow" [class.expanded]="expandedIndex === i">keyboard_arrow_down</mat-icon>
+            </div>
+            
+            <div class="field-checkbox-cell">
+              <mat-checkbox formControlName="selected"></mat-checkbox>
+            </div>
+          </div>
+
+          <div class="expanded-section" *ngIf="expandedIndex === i">
+            <mat-form-field appearance="outline" class="custom-label-input">
+              <mat-label>Nadpisz nazwę kolumny</mat-label>
+              <input matInput formControlName="customLabel" class="custom-input-font">
             </mat-form-field>
           </div>
+          
         </div>
       </div>
     </div>
