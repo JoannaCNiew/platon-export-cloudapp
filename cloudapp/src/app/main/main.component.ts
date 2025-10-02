@@ -6,11 +6,12 @@ import {
   Entity,
   HttpMethod,
   CloudAppConfigService,
+  CloudAppStoreService
 } from '@exlibris/exl-cloudapp-angular-lib';
 import { Observable, forkJoin } from 'rxjs';
 import { finalize, tap, map } from 'rxjs/operators';
 import { AVAILABLE_FIELDS } from './field-definitions';
-import { FieldConfig, AppSettings } from '../models/settings'; // Poprawny import FieldConfig i AppSettingsimport { AppSettings } from '../models/settings'; // Poprawny import modelu AppSettings
+import { AppSettings, FieldConfig } from '../models/settings'; 
 
 @Component({
   selector: 'app-main',
@@ -21,9 +22,8 @@ export class MainComponent implements OnInit, OnDestroy {
 
   loading = false;
   entities$: Observable<Entity[]>;
-  selectedEntities: Entity[] = [];
+  selectedEntities: Entity[] = []; // Kluczowa lista wybranych encji
   previewContent: string | null = null;
-  allSelected = false;
 
   availableFields: FieldConfig[] = [...AVAILABLE_FIELDS];
 
@@ -31,33 +31,59 @@ export class MainComponent implements OnInit, OnDestroy {
     private restService: CloudAppRestService,
     private eventsService: CloudAppEventsService,
     private alert: AlertService,
-    private configService: CloudAppConfigService, // Używamy CloudAppConfigService zamiast SettingsService
+    private configService: CloudAppConfigService,
+    private storeService: CloudAppStoreService
   ) {
-    this.entities$ = this.eventsService.entities$.pipe(tap(() => {
-      this.loading = false;
-      this.selectedEntities = [];
-      this.previewContent = null;
-    }));
+    this.entities$ = this.eventsService.entities$.pipe(
+      tap(() => {
+        this.loading = false;
+        this.selectedEntities = [];
+        this.previewContent = null;
+      })
+    );
   }
 
   ngOnInit() {
     this.loadSettings();
   }
 
-  ngOnDestroy(): void {
-  }
+  ngOnDestroy(): void { }
 
   get selectedFields(): FieldConfig[] {
-    // Filtrowanie, ale też dbanie o kolejność zdefiniowaną w ustawieniach
     return this.availableFields.filter(field => field.selected);
   }
 
-  toggleAll() {
-    this.entities$.subscribe(entities => {
-      this.allSelected = !this.allSelected;
-      this.selectedEntities = this.allSelected ? [...entities] : [];
-    });
+  // NOWA METODA: Sprawdza, czy wszystkie widoczne encje są wybrane
+  isAllSelected(entities: Entity[]): boolean {
+    return entities.every(entity => this.selectedEntities.some(e => e.link === entity.link));
   }
+
+  // NOWA METODA: Zmienia stan 'Zaznacz/Odznacz wszystko'
+  masterToggle(entities: Entity[]) {
+    const isAll = this.isAllSelected(entities);
+    if (isAll) {
+      this.selectedEntities = [];
+    } else {
+      this.selectedEntities = [...entities];
+    }
+  }
+
+  // Metoda do dodawania/usuwania encji z listy wybranych
+  toggleEntity(entity: Entity) {
+    const index = this.selectedEntities.findIndex(e => e.link === entity.link);
+    if (index === -1) {
+      this.selectedEntities.push(entity);
+    } else {
+      this.selectedEntities.splice(index, 1);
+    }
+  }
+
+  // Sprawdza, czy encja jest wybrana
+  isSelected(entity: Entity): boolean {
+    return this.selectedEntities.some(e => e.link === entity.link);
+  }
+
+  // --- Logika generowania i pobierania plików ---
 
   generatePreview() {
     this.loading = true;
@@ -74,12 +100,10 @@ export class MainComponent implements OnInit, OnDestroy {
       .pipe(
         finalize(() => this.loading = false),
         map(responses => {
-          // GENEROWANIE NAGŁÓWKA
           const headers = this.selectedFields.map(field => field.customLabel).join('\t');
           let fileContent = `# Koszyk TXT Magazyn Wirtualny OSDW Azymut #\n${headers}\n`;
           
-          // GENEROWANIE DANYCH
-          responses.forEach((response: any) => { // Zmieniono typ na 'any' dla bezpieczeństwa
+          responses.forEach((response: any) => { 
             const row = this.selectedFields.map(field => {
               switch (field.name) {
                 case 'isbn':
@@ -112,11 +136,11 @@ export class MainComponent implements OnInit, OnDestroy {
         })
       )
       .subscribe({
-        next: (fileContent: string) => { // Jawne typowanie
+        next: (fileContent: string) => { 
           this.previewContent = fileContent;
           this.alert.success('Podgląd został wygenerowany!');
         },
-        error: (err: any) => { // Jawne typowanie
+        error: (err: any) => { 
           this.alert.error('Wystąpił błąd podczas pobierania danych: ' + err.message);
         }
       });

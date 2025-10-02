@@ -1,15 +1,13 @@
 <div *ngIf="entities$ | async as entities">
   <ng-container *ngIf="entities.length > 0; then entitylist; else noentities"></ng-container>
+  
   <ng-template #noentities>
-    <h1>Welcome!</h1>
+    <h1>Witaj!</h1>
     <div class="highlight">Przejdź do strony z listą linii zamówień, aby wczytać encje.</div>
   </ng-template>
 
   <ng-template #entitylist>
     <div class="eca-actions">
-      <button mat-flat-button color="secondary" (click)="toggleAll()" [disabled]="loading">
-        Zaznacz/Odznacz wszystko
-      </button>
       <button mat-flat-button color="primary" (click)="generatePreview()" [disabled]="loading || selectedEntities.length === 0">
         Generuj podgląd
       </button>
@@ -22,11 +20,33 @@
     </div>
 
     <h1>Lista encji</h1>
-    <mat-selection-list class="entities-list" [(ngModel)]="selectedEntities">
-      <mat-list-option *ngFor="let entity of entities" [value]="entity">
-        {{entity.description}}
-      </mat-list-option>
-    </mat-selection-list>
+    
+    <mat-list>
+      <mat-list-item class="entity-item"> 
+        <div class="list-line-content">
+            <mat-checkbox
+              [checked]="isAllSelected(entities)"
+              (change)="masterToggle(entities)" 
+              [disabled]="loading"
+              class="master-checkbox">
+            </mat-checkbox>
+            <div class="select-all-label" (click)="masterToggle(entities)">
+                Zaznacz/Odznacz wszystko ({{selectedEntities.length}}/{{entities.length}})
+            </div>
+        </div>
+      </mat-list-item>
+
+      <mat-list-item *ngFor="let entity of entities" class="entity-item" (click)="toggleEntity(entity)">
+        <div class="list-line-content">
+            <mat-checkbox 
+              [checked]="isSelected(entity)" 
+              [disabled]="loading"
+              class="entity-checkbox">
+            </mat-checkbox>
+            <div class="entity-description">{{ entity.description }}</div>
+        </div>
+      </mat-list-item>
+    </mat-list>
     
     <div *ngIf="previewContent" class="preview-container">
       <h2>Podgląd pliku</h2>
@@ -34,6 +54,7 @@
     </div>
   </ng-template>
 </div>
+
 <div class="loading-shade" *ngIf="loading">
   <mat-spinner diameter="50"></mat-spinner>
 </div>
