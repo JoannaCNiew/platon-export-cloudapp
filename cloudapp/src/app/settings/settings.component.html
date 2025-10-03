@@ -1,34 +1,46 @@
-<h2 mat-dialog-title>Ustawienia eksportu</h2>
+<h2 class="dialog-title-final">Ustawienia eksportu</h2>
 
 <form [formGroup]="form"> 
 
   <mat-dialog-content>
     <div class="columns-config">
-      <h3>Wybierz pola do eksportu</h3>
+      
+      <p class="instruction-text">Zaznacz pola, które chcesz wyeksportować. Możesz zmienić kolejność pól oraz podać własne nazwy kolumn.</p>
+
       
       <div formArrayName="availableFields" cdkDropList (cdkDropListDropped)="drop($event)">
         
-        <div *ngFor="let fieldControl of fieldsFormArray.controls; let i = index" [formGroupName]="i" cdkDrag>
+        <div *ngFor="let fieldControl of fieldsFormArray.controls; let i = index" [formGroupName]="i" cdkDrag
+             class="field-row-container"
+             (mouseenter)="hoverIndex = i" 
+             (mouseleave)="hoverIndex = null">
+          
           <div class="field-item">
-            <mat-icon cdkDragHandle>drag_indicator</mat-icon>
             
-            <mat-checkbox formControlName="selected" class="field-checkbox">
-              {{ fieldControl.value.label }} 
-            </mat-checkbox>
+            <mat-icon cdkDragHandle 
+                      [style.visibility]="hoverIndex === i ? 'visible' : 'hidden'" 
+                      class="drag-handle-icon">drag_indicator</mat-icon>
             
-            <mat-form-field class="field-input">
-              <mat-label>Własna nazwa ({{ fieldControl.value.label }})</mat-label>
+            <div class="field-label-cell" (click)="toggleExpand(i)">
+              {{ fieldControl.value.label }}
+              <mat-icon class="expand-arrow" [class.expanded]="expandedIndex === i">keyboard_arrow_down</mat-icon>
+            </div>
+            
+            <div class="field-checkbox-cell">
+              <mat-checkbox formControlName="selected"></mat-checkbox>
+            </div>
+          </div>
+
+          <div class="expanded-section" *ngIf="expandedIndex === i">
+            <mat-form-field appearance="outline" class="custom-label-input">
+              <mat-label>Nadpisz nazwę kolumny</mat-label>
               <input matInput formControlName="customLabel">
             </mat-form-field>
           </div>
+          
         </div>
       </div>
     </div>
   </mat-dialog-content>
 
-  <mat-dialog-actions align="end">
-    <button mat-button (click)="router.navigate(['/'])">Anuluj</button>
-    <button mat-button color="primary" (click)="saveSettings()">Zapisz</button>
-  </mat-dialog-actions>
-
-</form>
+  </form>

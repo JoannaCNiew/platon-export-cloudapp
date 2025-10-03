@@ -1,56 +1,131 @@
-// Style dla nowego nagłówka
-.page-header {
-  padding: 1rem 1.5rem; // Dodajemy wewnętrzne marginesy
-  border-bottom: 1px solid #e0e0e0; // Delikatna linia oddzielająca
+/* --- STYLE MATERIAL DLA NAGŁÓWKÓW I LIST --- */
+
+/* 1. Nagłówek okna dialogowego */
+.dialog-title-final {
+    font-size: 18px !important; 
+    font-weight: 500 !important;
+    margin-bottom: 10px;
 }
 
-// Kontener na przyciski
-.page-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 8px;
-  margin-bottom: 1rem;
-
-  // Ta reguła zapewni, że przyciski nie będą miały dodatkowych, niechcianych marginesów
-  button {
-    margin: 0;
-  }
+/* 2. Nagłówki sekcji */
+h3, h4 {
+    font-size: 16px; 
+    font-weight: 600;
+    margin-top: 10px;
+    margin-bottom: 5px;
 }
 
-// Tytuł główny ("Ustawienia eksportu")
-.page-title {
-  font-size: 1.25rem; // Mniejsza czcionka (domyślnie h2 jest większe)
-  font-weight: 500;   // Trochę cieńsza czcionka
-  margin: 0;
+/* 3. Nagłówki Kolumn */
+.table-header {
+    font-size: 0.9em; 
+    font-weight: 700;
+    background-color: #f7f7f7;
+    border-top: 1px solid #eee;
+    padding: 8px 0;
 }
 
-// Kontener z listą pól
-.columns-config {
-  // Podtytuł ("Wybierz pola do eksportu")
-  h3 {
-    font-size: 1rem; // Jeszcze mniejsza czcionka
-    font-weight: 400; // Standardowa grubość
-    color: #616161; // Ciemnoszary kolor
-  }
+/* --- WŁAŚCIWOŚCI LISTY (Kluczowa sekcja dla rozmiarów) --- */
+
+.table-header, .field-item {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    padding: 8px 0;
+    /* Zmieniono z 13px na 14px */
+    font-size: 14px; 
 }
 
-// Upewniamy się, że treść dialogu nie ma własnych marginesów
-:host mat-dialog-content {
-  padding: 1.5rem;
+/* --- SEKCJA ROZWIJANA (Własna nazwa) --- */
+
+.expanded-section {
+    padding: 10px 15px 5px 45px; 
+    background-color: #fafafa;
+    border-bottom: 1px solid #eee;
+    margin-top: -1px;
 }
 
-// Ta reguła odnosi się do komponentu-dziecka app-column-config
-// i stylizuje etykiety wewnątrz niego
-::ng-deep app-column-config .field-label {
-  font-size: 14px !important; // Ustawiamy rozmiar czcionki etykiety
+.custom-label-input {
+    width: 100%;
 }
 
-// Kontener z listą pól
-.columns-config {
-  // Podtytuł ("Wybierz pola do eksportu")
-  h3 {
-    font-size: 14px; // Ustawiamy DOKŁADNIE TEN SAM rozmiar czcionki
-    font-weight: 400;
-    color: #616161;
-  }
+/* KLUCZOWA ZMIANA: Nadpisanie czcionki w polu input Material MDC */
+.custom-label-input .mat-mdc-input-element {
+    /* Zmieniono z 13px na 14px */
+    font-size: 14px !important; 
+}
+
+
+/* --- POZOSTAŁE STYLE (Dla spójności) --- */
+
+.field-row-container {
+    cursor: default;
+}
+
+.col-drag, .drag-handle-icon {
+    width: 30px;
+    text-align: center;
+}
+
+.col-checkbox, .field-checkbox-cell {
+    width: 80px;
+    text-align: right;
+    padding-right: 15px;
+}
+
+.col-label, .field-label-cell {
+    flex-grow: 1; 
+    display: flex; 
+    align-items: center; 
+    justify-content: space-between; 
+}
+
+.drag-handle-icon {
+    cursor: grab;
+    color: #999;
+}
+
+.field-label-cell {
+    cursor: pointer;
+    padding-left: 5px;
+}
+
+.field-checkbox-cell {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+/* NOWE STYLE DLA STRZAŁKI ROZWIJANIA */
+.expand-arrow {
+    transition: transform 0.2s ease-in-out;
+    margin-left: 8px; 
+}
+
+.expand-arrow.expanded {
+    transform: rotate(180deg);
+}
+
+pre {
+  overflow: auto;
+  max-height: 200px;
+  white-space: pre-wrap;
+  word-break: break-all;
+  font-size: 0.9em;
+}
+
+textarea {
+  padding: 2px;
+  border-width: 1px;
+  $width: calc(100% - 6px);
+  width: $width;
+  max-width: $width;
+  height: 150px;
+  font-family: monospace;
+  display: block;
+}
+
+textarea,
+section,
+mat-card {
+  margin-bottom: 20px;
 }
