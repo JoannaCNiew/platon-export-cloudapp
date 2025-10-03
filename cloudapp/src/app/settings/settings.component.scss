@@ -1,13 +1,20 @@
-/* --- STYLE MATERIAL DLA NAGŁÓWKÓW I LIST --- */
+/* Układ siatki dla listy pól */
+.table-header, .field-item {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    padding: 8px 0;
+    font-size: 14px; 
+}
 
-/* 1. Nagłówek okna dialogowego */
+/* --- HIERARCHIA NAGŁÓWKÓW --- */
+
 .dialog-title-final {
     font-size: 18px !important; 
     font-weight: 500 !important;
     margin-bottom: 10px;
 }
 
-/* 2. Nagłówki sekcji */
 h3, h4 {
     font-size: 16px; 
     font-weight: 600;
@@ -15,7 +22,6 @@ h3, h4 {
     margin-bottom: 5px;
 }
 
-/* 3. Nagłówki Kolumn */
 .table-header {
     font-size: 0.9em; 
     font-weight: 700;
@@ -24,18 +30,21 @@ h3, h4 {
     padding: 8px 0;
 }
 
-/* --- WŁAŚCIWOŚCI LISTY (Kluczowa sekcja dla rozmiarów) --- */
+/* --- PRZYCISKI I AKCJE --- */
 
-.table-header, .field-item {
-    display: flex;
-    align-items: center;
-    border-bottom: 1px solid #eee;
-    padding: 8px 0;
-    /* Zmieniono z 13px na 14px */
-    font-size: 14px; 
+/* Pozycjonowanie przycisku "Wróć" */
+.dialog-header-actions {
+    padding-bottom: 15px;
 }
 
-/* --- SEKCJA ROZWIJANA (Własna nazwa) --- */
+.dialog-actions-bottom {
+    /* Upewnienie się, że przyciski są zawsze widoczne i wyrównane do prawej */
+    justify-content: flex-end; 
+    /* Dodanie standardowego Material Design padding */
+    padding: 16px 0; 
+}
+
+/* --- POZOSTAŁE STYLE (Dla kompletności) --- */
 
 .expanded-section {
     padding: 10px 15px 5px 45px; 
@@ -48,14 +57,9 @@ h3, h4 {
     width: 100%;
 }
 
-/* KLUCZOWA ZMIANA: Nadpisanie czcionki w polu input Material MDC */
 .custom-label-input .mat-mdc-input-element {
-    /* Zmieniono z 13px na 14px */
     font-size: 14px !important; 
 }
-
-
-/* --- POZOSTAŁE STYLE (Dla spójności) --- */
 
 .field-row-container {
     cursor: default;
@@ -95,7 +99,6 @@ h3, h4 {
     align-items: center;
 }
 
-/* NOWE STYLE DLA STRZAŁKI ROZWIJANIA */
 .expand-arrow {
     transition: transform 0.2s ease-in-out;
     margin-left: 8px; 
@@ -103,29 +106,4 @@ h3, h4 {
 
 .expand-arrow.expanded {
     transform: rotate(180deg);
-}
-
-pre {
-  overflow: auto;
-  max-height: 200px;
-  white-space: pre-wrap;
-  word-break: break-all;
-  font-size: 0.9em;
-}
-
-textarea {
-  padding: 2px;
-  border-width: 1px;
-  $width: calc(100% - 6px);
-  width: $width;
-  max-width: $width;
-  height: 150px;
-  font-family: monospace;
-  display: block;
-}
-
-textarea,
-section,
-mat-card {
-  margin-bottom: 20px;
 }
