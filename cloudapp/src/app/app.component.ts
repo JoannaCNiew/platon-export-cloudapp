@@ -16,17 +16,12 @@ export class AppComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    // USUNIĘTO: Wszelkie próby rejestracji akcji menu.
-    // Teraz ikona ustawień jest obsługiwana wyłącznie przez routerLink w main.component.html.
-
-    // Standardowe czyszczenie paska narzędzi przy zmianie routingu
+    // Wymuszenie czyszczenia nagłówka przy zmianie routingu, 
+    // aby usunąć przyciski, które zostały zdefiniowane w settings.component.ts.
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe(() => {
-        // Wymuszamy odświeżenie paska akcji (czyszczenie starych przycisków, jeśli istnieją)
         this.eventsService.refreshPage().subscribe(); 
     });
   }
-
-  // Usunięto: Metoda updateHeaderActions
 }

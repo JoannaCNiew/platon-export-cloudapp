@@ -44,19 +44,23 @@ export class SettingsComponent implements OnInit, OnDestroy {
       error: (err: any) => this.alert.error('Nie udało się wczytać ustawień: ' + err.message)
     });
     
+    // Kluczowe: Rejestracja akcji w momencie inicjalizacji
     this.registerHeaderActions();
   }
   
-  // NOWA METODA: Rejestracja przycisków w nagłówku (POPRAWNY FORMAT)
+  // METODA: Rejestracja przycisków w nagłówku (POPRAWNY FORMAT DLA SDK)
   registerHeaderActions(): void {
-    // Używamy JEDNEGO wywołania register z tablicą akcji. 
-    // To jest najbardziej uniwersalny format, który działa w szerokim zakresie wersji.
+    // Używamy JEDNEGO wywołania register z tablicą akcji (wzór z note_utility)
     this.eventsService.register({
         actions: [
+            // Akcja 'cancel' jest domyślnie interpretowana przez Almę jako przycisk "Anuluj"
             { action: 'cancel', label: 'Anuluj', callback: () => this.onCancel() },
+            // Akcja 'save' jest domyślnie interpretowana przez Almę jako przycisk "Zapisz"
             { action: 'save', label: 'Zapisz', callback: () => this.saveSettings() }
         ]
     });
+    // Wymuszenie odświeżenia paska narzędzi, aby przyciski natychmiast się pojawiły
+    this.eventsService.refreshPage().subscribe(); 
   }
 
   onCancel(): void {
@@ -104,9 +108,9 @@ export class SettingsComponent implements OnInit, OnDestroy {
     }
   }
 
-  // Wymagane, aby usunąć akcje z nagłówka po zamknięciu komponentu
+  // ngOnDestroy: Wyczyść pasek narzędzi, gdy komponent jest niszczony
   ngOnDestroy(): void {
-    // Po prostu odświeżamy stronę, aby usunąć akcje z paska.
+    // Odświeżamy stronę, aby usunąć akcje 'cancel' i 'save' z paska
     this.eventsService.refreshPage().subscribe(); 
   }
 }
